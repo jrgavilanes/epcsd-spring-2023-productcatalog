@@ -1,7 +1,7 @@
 package edu.uoc.epcsd.productcatalog.controllers;
 
-
 import edu.uoc.epcsd.productcatalog.entities.Product;
+import edu.uoc.epcsd.productcatalog.kafka.ProductMessage;
 import edu.uoc.epcsd.productcatalog.repositories.ProductRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class ProductController {
     private ProductRepository productRepository;
 
     @Autowired
-    private KafkaTemplate<String, Product> productKafkaTemplate;
+    private KafkaTemplate<String, ProductMessage> productKafkaTemplate;
 
     @GetMapping("/")
     @ResponseStatus(HttpStatus.OK)
