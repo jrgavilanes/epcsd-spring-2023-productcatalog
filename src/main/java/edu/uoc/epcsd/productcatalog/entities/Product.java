@@ -2,9 +2,7 @@ package edu.uoc.epcsd.productcatalog.entities;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
 @ToString
@@ -14,7 +12,17 @@ import javax.persistence.ManyToOne;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Product extends CatalogElement {
+public class Product  {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "name", nullable = false)
+    private String name;
+
+    @Column(name = "description", nullable = false)
+    private String description;
 
     @Column(name = "dailyPrice", nullable = false)
     private Double dailyPrice;
@@ -25,7 +33,8 @@ public class Product extends CatalogElement {
     @Column(name = "model", nullable = false)
     private String model;
 
-    @ManyToOne(optional = false)
+    @ManyToOne
+    @JoinColumn(name = "category_id", referencedColumnName = "id")
     private Category category;
 
 }

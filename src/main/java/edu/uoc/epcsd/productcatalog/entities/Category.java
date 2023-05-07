@@ -3,9 +3,7 @@ package edu.uoc.epcsd.productcatalog.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -16,10 +14,19 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Category extends CatalogElement {
+public class Category {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "name", nullable = false)
+    private String name;
+
+    @Column(name = "description", nullable = false)
+    private String description;
     @ManyToOne
-    private CatalogElement parent;
+    private Category parent;
 
     @JsonIgnore
     @OneToMany(mappedBy = "parent")
