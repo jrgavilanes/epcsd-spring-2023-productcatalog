@@ -1,0 +1,88 @@
+{
+	"info": {
+		"_postman_id": "933b663b-6d54-4821-9200-7f155f96225f",
+		"name": "epcsd-spring-2023-catalog",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7577554"
+	},
+	"item": [
+		{
+			"name": "createCategory",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"fotos\",\n    \"description\": \"descripción de fotos\"    \n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:18081/category",
+					"host": [
+						"localhost"
+					],
+					"port": "18081",
+					"path": [
+						"category"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAllCategories",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:18081/category",
+					"host": [
+						"localhost"
+					],
+					"port": "18081",
+					"path": [
+						"category"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createProduct",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"name1\",\n    \"description\": \"desc1\",\n    \"dailyPrice\": 0.1,\n    \"brand\": \"brand1\",\n    \"model\": \"model1\",\n    \"id_category\": null\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:18081/product?category_id=1",
+					"host": [
+						"localhost"
+					],
+					"port": "18081",
+					"path": [
+						"product"
+					],
+					"query": [
+						{
+							"key": "category_id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
