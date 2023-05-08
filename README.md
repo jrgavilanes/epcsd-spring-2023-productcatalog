@@ -1,3 +1,34 @@
+# Mis notas
+
+kafka
+
+```bash
+  janrax@janrax-Legion-5-Linux:~/Escritorio/Code/epcsd-spring-2023-productcatalog$ docker-compose ps
+  Name                                  Command               State                                            Ports
+  --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  epcsd-spring-2023-productcatalog_adminer_1     entrypoint.sh php -S [::]: ...   Up      0.0.0.0:18080->8080/tcp,:::18080->8080/tcp                                              
+  epcsd-spring-2023-productcatalog_kafka_1       /etc/confluent/docker/run        Up      0.0.0.0:19092->19092/tcp,:::19092->19092/tcp, 0.0.0.0:29092->9092/tcp,:::29092->9092/tcp
+  epcsd-spring-2023-productcatalog_productdb_1   docker-entrypoint.sh postgres    Up      0.0.0.0:54320->5432/tcp,:::54320->5432/tcp                                              
+  epcsd-spring-2023-productcatalog_userdb_1      docker-entrypoint.sh postgres    Up      0.0.0.0:54321->5432/tcp,:::54321->5432/tcp                                              
+  epcsd-spring-2023-productcatalog_zookeeper_1   /etc/confluent/docker/run        Up      0.0.0.0:22181->2181/tcp,:::22181->2181/tcp, 2888/tcp, 3888/tcp
+
+
+
+  janrax@janrax-Legion-5-Linux:~/Escritorio/Code/epcsd-spring-2023-productcatalog$ docker exec -it epcsd-spring-2023-productcatalog_kafka_1 bash
+
+  [appuser@a3a6858689f7 /bin]$ kaftopics --create --topic mytopic --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1
+  
+  [appuser@a3a6858689f7 /bin]$ kafka-console-producer --topic mitopic --bootstrap-server localhost:9092
+  >hola
+  >que pasa
+  
+  # Desde otra sesión
+  [appuser@a3a6858689f7 bin]$ kafka-console-consumer --topic mitopic --bootstrap-server localhost:9092 --from-beginning
+  hola
+  que pasa
+
+```
+
 <div id="top"></div>
 <!--
 *** Made using the Best-README-Template
