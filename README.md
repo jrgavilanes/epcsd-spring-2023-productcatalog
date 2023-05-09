@@ -1,6 +1,9 @@
 # Mis notas
 
-kafka
+kafka 
+
+amigoscode: https://www.youtube.com/watch?v=SqVfCyfCJqw
+
 
 ```bash
   janrax@janrax-Legion-5-Linux:~/Escritorio/Code/epcsd-spring-2023-productcatalog$ docker-compose ps
