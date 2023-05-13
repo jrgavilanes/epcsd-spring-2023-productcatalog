@@ -1,10 +1,13 @@
 package edu.uoc.epcsd.productcatalog;
 
 import edu.uoc.epcsd.productcatalog.entities.Category;
+import edu.uoc.epcsd.productcatalog.entities.ItemStatus;
 import edu.uoc.epcsd.productcatalog.entities.Product;
+import edu.uoc.epcsd.productcatalog.entities.ProductItem;
 import edu.uoc.epcsd.productcatalog.kafka.KafkaConstants;
 import edu.uoc.epcsd.productcatalog.kafka.ProductMessage;
 import edu.uoc.epcsd.productcatalog.repositories.CategoryRepository;
+import edu.uoc.epcsd.productcatalog.repositories.ProductItemRepository;
 import edu.uoc.epcsd.productcatalog.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -24,6 +27,9 @@ public class ProductCatalogApplication implements CommandLineRunner {
 
     @Autowired
     CategoryRepository categoryRepository;
+
+    @Autowired
+    ProductItemRepository productItemRepository;
 
     @Autowired
     KafkaTemplate<String, ProductMessage> kafkaTemplate;
@@ -57,17 +63,21 @@ public class ProductCatalogApplication implements CommandLineRunner {
         productRepository.save(product1);
         productRepository.save(product2);
 
-        for (int i = 0; i < 1000000; i++) {
+        for (int i = 0; i < 1; i++) {
             kafkaTemplate.send(
                     KafkaConstants.PRODUCT_TOPIC + KafkaConstants.SEPARATOR + KafkaConstants.UNIT_AVAILABLE,
-                    new ProductMessage(product1.getBrand()+i, product1.getModel()+i)
+                    new ProductMessage(product1.getBrand() + i, product1.getModel() + i)
             );
 
             kafkaTemplate.send(
                     KafkaConstants.PRODUCT_TOPIC + KafkaConstants.SEPARATOR + KafkaConstants.UNIT_AVAILABLE,
-                    new ProductMessage(product2.getBrand()+i, product2.getModel()+i)
+                    new ProductMessage(product2.getBrand() + i, product2.getModel() + i)
             );
         }
+
+        var p1 = productRepository.findById(1l).get();
+        var productItem = new ProductItem(-1L, "mi serial number", ItemStatus.OPERATIONAL, p1);
+        productItemRepository.save(productItem);
 
     }
 }

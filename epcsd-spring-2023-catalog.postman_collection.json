@@ -83,6 +83,32 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "createItem",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:18081/product/1/createItem?serial_number=holanano",
+					"host": [
+						"localhost"
+					],
+					"port": "18081",
+					"path": [
+						"product",
+						"1",
+						"createItem"
+					],
+					"query": [
+						{
+							"key": "serial_number",
+							"value": "holanano"
+						}
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

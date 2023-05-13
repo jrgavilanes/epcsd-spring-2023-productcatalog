@@ -28,8 +28,18 @@ public class CategoryController {
     // add the code for the missing operations here
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createCategory(@RequestBody @Valid Category category) {
+    public void createCategory(@RequestBody @Valid Category category,
+                               @RequestParam(name = "parent", required = false) Long parentId) {
         log.trace("createCategory");
+        if (parentId != null) {
+            var parentCategory = categoryRepository.findById(parentId).orElseThrow(
+                    () -> new RuntimeException("Parent category not found")
+            );
+            category.setParent(parentCategory);
+            categoryRepository.save(category);
+            return;
+        }
+
         categoryRepository.save(category);
     }
 }

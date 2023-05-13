@@ -1,11 +1,13 @@
 package edu.uoc.epcsd.productcatalog.controllers;
 
+import edu.uoc.epcsd.productcatalog.entities.ItemStatus;
 import edu.uoc.epcsd.productcatalog.entities.Product;
+import edu.uoc.epcsd.productcatalog.entities.ProductItem;
 import edu.uoc.epcsd.productcatalog.kafka.ProductMessage;
 import edu.uoc.epcsd.productcatalog.repositories.CategoryRepository;
+import edu.uoc.epcsd.productcatalog.repositories.ProductItemRepository;
 import edu.uoc.epcsd.productcatalog.repositories.ProductRepository;
 import lombok.extern.log4j.Log4j2;
-import org.apache.kafka.common.protocol.types.Field;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +27,9 @@ public class ProductController {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private ProductItemRepository productItemRepository;
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -60,4 +65,21 @@ public class ProductController {
         productRepository.save(product);
         return null;
     }
+
+    @PostMapping("{id_product}/createItem")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ProductItem createItem(@PathVariable("id_product") Long id_product,
+                                  @RequestParam(name = "serial_number") String serialNumber) {
+        log.trace("createItem");
+
+        var product = productRepository.findById(id_product).orElseThrow(
+                () -> new RuntimeException("Product not found")
+        );
+
+        var productItem = new ProductItem(-1L, serialNumber, ItemStatus.OPERATIONAL, product);
+        return productItemRepository.save(productItem);
+
+
+    }
 }
+
