@@ -58,7 +58,7 @@ public class ProductCatalogApplication implements CommandLineRunner {
         categoryRepository.save(new Category(3l, "name2", "description2", category1, null));
 
         var product1 = new Product(-1l, "producto1", "descripcion1", 0.0, "marca", "modelo", category1);
-        var product2 = new Product(-1l, "producto2", "descripcion2", 0.0, "marca", "modelo", category2);
+        var product2 = new Product(-1l, "producto2", "descripcion2", 0.0, "marca", "modelo", category1);
 
         productRepository.save(product1);
         productRepository.save(product2);

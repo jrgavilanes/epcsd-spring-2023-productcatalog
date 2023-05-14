@@ -26,7 +26,7 @@ public class Category {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @ManyToOne
+    @ManyToOne()
     private Category parent;
 
     @JsonIgnore

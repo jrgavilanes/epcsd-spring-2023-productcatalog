@@ -17,10 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Log4j2
 @RestController
@@ -45,6 +42,15 @@ public class ProductController {
         log.trace("getAllProducts");
         return productRepository.findAll();
     }
+
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Optional<Product> getProductById(@PathVariable("id") Long id) {
+        log.trace("getProductById");
+        return productRepository.findById(id);
+    }
+
+
 
     // add the code for the missing operations here
     @PostMapping("")
@@ -80,6 +86,16 @@ public class ProductController {
 
         var productItem = new ProductItem(-1L, serialNumber, ItemStatus.OPERATIONAL, product);
         return productItemRepository.save(productItem);
+
+    }
+
+    @GetMapping("{id_product}/{id_item}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Optional<ProductItem> getItemById(@PathVariable("id_product") Long id_product,
+                                             @PathVariable("id_item") Long id_item) {
+        log.trace("getItemById");
+
+        return productItemRepository.findById(id_item);
 
     }
 
@@ -123,7 +139,7 @@ public class ProductController {
     public Collection<Category> findCategoriesByCriteria(
             @RequestParam(name = "name", required = false) String name,
             @RequestParam(name = "description", required = false) String description,
-            @RequestParam(name = "parent", required = false) Long parentId
+            @RequestParam(name = "parent_id", required = false) Long parentId
     ) {
         log.trace("findCategoriesByCriteria");
 
@@ -135,11 +151,30 @@ public class ProductController {
             return categoryRepository.findCategoriesByDescription(description);
         }
 
-//        if (parentId != null) {
-//            var parentCategory = categoryRepository.findById(parentId);
-//
-//            return categoryRepository.findCategoriesByParent(parentCategory);
-//        }
+        if (parentId != null) {
+            return categoryRepository.findCategoriesByParent(parentId);
+        }
+
+        throw new RuntimeException("Not valid criteria given");
+    }
+
+    @GetMapping("/findProductByCriteria")
+    @ResponseStatus(HttpStatus.OK)
+    public Collection<Product> findProductByCriteria(
+            @RequestParam(name = "name", required = false) String name,
+            @RequestParam(name = "category_id", required = false) Long categoryId
+
+    ) {
+        log.trace("findProductByCriteria");
+
+        if (name != null) {
+            return productRepository.findByName(name);
+        }
+
+        if (categoryId != null) {
+            var category = categoryRepository.findById(categoryId);
+            return productRepository.findByCategory(categoryId);
+        }
 
         throw new RuntimeException("Not valid criteria given");
     }
