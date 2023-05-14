@@ -1,5 +1,6 @@
 package edu.uoc.epcsd.productcatalog.controllers;
 
+import edu.uoc.epcsd.productcatalog.entities.Category;
 import edu.uoc.epcsd.productcatalog.entities.ItemStatus;
 import edu.uoc.epcsd.productcatalog.entities.Product;
 import edu.uoc.epcsd.productcatalog.entities.ProductItem;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -79,7 +81,69 @@ public class ProductController {
         var productItem = new ProductItem(-1L, serialNumber, ItemStatus.OPERATIONAL, product);
         return productItemRepository.save(productItem);
 
-
     }
+
+    @DeleteMapping("{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteProduct(@PathVariable("id") Long id
+    ) {
+        log.trace("deleteProduct");
+        var product = productRepository.findById(id).orElseThrow(
+                () -> new RuntimeException("Product not found")
+        );
+        productRepository.delete(product);
+    }
+
+    @PatchMapping("/item/{item_id}/setNotOperational")
+    @ResponseStatus(HttpStatus.OK)
+    public void setNotOperactionalItem(@PathVariable("item_id") Long id
+    ) {
+        log.trace("setNotOperactionalItem");
+        var productItem = productItemRepository.findById(id).orElseThrow(
+                () -> new RuntimeException("Product item not found")
+        );
+        productItem.setStatus(ItemStatus.NON_OPERATIONAL);
+        productItemRepository.save(productItem);
+    }
+
+    @PatchMapping("/item/{item_id}/setOperational")
+    @ResponseStatus(HttpStatus.OK)
+    public void setOperactionalItem(@PathVariable("item_id") Long id
+    ) {
+        log.trace("setNotOperactionalItem");
+        var productItem = productItemRepository.findById(id).orElseThrow(
+                () -> new RuntimeException("Product item not found")
+        );
+        productItem.setStatus(ItemStatus.OPERATIONAL);
+        productItemRepository.save(productItem);
+    }
+
+    @GetMapping("/findCategoriesByCriteria")
+    @ResponseStatus(HttpStatus.OK)
+    public Collection<Category> findCategoriesByCriteria(
+            @RequestParam(name = "name", required = false) String name,
+            @RequestParam(name = "description", required = false) String description,
+            @RequestParam(name = "parent", required = false) Long parentId
+    ) {
+        log.trace("findCategoriesByCriteria");
+
+        if (name != null) {
+            return categoryRepository.findCategoriesByName(name);
+        }
+
+        if (description != null) {
+            return categoryRepository.findCategoriesByDescription(description);
+        }
+
+//        if (parentId != null) {
+//            var parentCategory = categoryRepository.findById(parentId);
+//
+//            return categoryRepository.findCategoriesByParent(parentCategory);
+//        }
+
+        throw new RuntimeException("Not valid criteria given");
+    }
+
+
 }
 
