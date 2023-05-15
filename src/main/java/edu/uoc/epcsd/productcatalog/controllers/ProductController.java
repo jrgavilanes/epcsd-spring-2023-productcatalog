@@ -4,6 +4,7 @@ import edu.uoc.epcsd.productcatalog.entities.Category;
 import edu.uoc.epcsd.productcatalog.entities.ItemStatus;
 import edu.uoc.epcsd.productcatalog.entities.Product;
 import edu.uoc.epcsd.productcatalog.entities.ProductItem;
+import edu.uoc.epcsd.productcatalog.kafka.KafkaConstants;
 import edu.uoc.epcsd.productcatalog.kafka.ProductMessage;
 import edu.uoc.epcsd.productcatalog.repositories.CategoryRepository;
 import edu.uoc.epcsd.productcatalog.repositories.ProductItemRepository;
@@ -85,6 +86,12 @@ public class ProductController {
         );
 
         var productItem = new ProductItem(-1L, serialNumber, ItemStatus.OPERATIONAL, product);
+
+        productKafkaTemplate.send(
+                KafkaConstants.PRODUCT_TOPIC + KafkaConstants.SEPARATOR + KafkaConstants.UNIT_AVAILABLE,
+                new ProductMessage(product.getBrand(), product.getModel())
+        );
+
         return productItemRepository.save(productItem);
 
     }
