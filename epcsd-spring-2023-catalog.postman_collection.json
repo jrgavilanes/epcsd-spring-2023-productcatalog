@@ -90,7 +90,7 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "localhost:18081/product/1/createItem?serial_number=holanano",
+					"raw": "localhost:18081/product/1/createItem?serial_number=uno111",
 					"host": [
 						"localhost"
 					],
@@ -103,7 +103,7 @@
 					"query": [
 						{
 							"key": "serial_number",
-							"value": "holanano"
+							"value": "uno111"
 						}
 					]
 				}
