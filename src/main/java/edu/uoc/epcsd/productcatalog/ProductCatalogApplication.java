@@ -9,6 +9,7 @@ import edu.uoc.epcsd.productcatalog.kafka.ProductMessage;
 import edu.uoc.epcsd.productcatalog.repositories.CategoryRepository;
 import edu.uoc.epcsd.productcatalog.repositories.ProductItemRepository;
 import edu.uoc.epcsd.productcatalog.repositories.ProductRepository;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -20,6 +21,7 @@ import java.util.List;
 
 @SpringBootApplication
 @EnableJpaRepositories
+@Log4j2
 public class ProductCatalogApplication implements CommandLineRunner {
 
     @Autowired
@@ -31,9 +33,6 @@ public class ProductCatalogApplication implements CommandLineRunner {
     @Autowired
     ProductItemRepository productItemRepository;
 
-    @Autowired
-    KafkaTemplate<String, ProductMessage> kafkaTemplate;
-
     public static void main(String[] args) {
         SpringApplication.run(ProductCatalogApplication.class, args);
     }
@@ -41,43 +40,37 @@ public class ProductCatalogApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        // Demo data
+        insertDemoData();
 
+    }
+
+    private void insertDemoData() {
         var categories = List.of(
-                new Category(1l, "name1", "description1", null, null),
-                new Category(2l, "name2", "description2", null, null)
+                new Category(1L, "video", "description video", null, null),
+                new Category(2L, "audio", "description audio", null, null)
         );
 
         for (var category : categories) {
             categoryRepository.save(category);
         }
 
-        var category1 = categoryRepository.findById(1l).get();
-        var category2 = categoryRepository.findById(2l).get();
+        var category1 = categoryRepository.findById(1L).get();
 
-        categoryRepository.save(new Category(3l, "name2", "description2", category1, null));
+        categoryRepository.save(new Category(3L, "name2", "description2", category1, null));
 
-        var product1 = new Product(-1l, "producto1", "descripcion1", 0.0, "marca", "modelo", category1);
-        var product2 = new Product(-1l, "producto2", "descripcion2", 0.0, "marca", "modelo", category1);
+        var product1 = new Product(-1L, "sony-psx", "descripcion1", 0.0, "sony", "psx", category1);
+        var product2 = new Product(-1L, "hitachi-ajax", "descripcion2", 0.0, "hitachi", "ajax", category1);
 
         productRepository.save(product1);
         productRepository.save(product2);
 
-        for (int i = 0; i < 1; i++) {
-            kafkaTemplate.send(
-                    KafkaConstants.PRODUCT_TOPIC + KafkaConstants.SEPARATOR + KafkaConstants.UNIT_AVAILABLE,
-                    new ProductMessage(product1.getBrand() + i, product1.getModel() + i)
-            );
+        var p1 = productRepository.findById(1L).get();
+        var productItem = new ProductItem(-1L, "sn:0000001", ItemStatus.OPERATIONAL, p1);
 
-            kafkaTemplate.send(
-                    KafkaConstants.PRODUCT_TOPIC + KafkaConstants.SEPARATOR + KafkaConstants.UNIT_AVAILABLE,
-                    new ProductMessage(product2.getBrand() + i, product2.getModel() + i)
-            );
+        try {
+            productItemRepository.save(productItem);
+        } catch (Exception e) {
+            log.error(e.getMessage());
         }
-
-        var p1 = productRepository.findById(1l).get();
-        var productItem = new ProductItem(-1L, "mi serial number", ItemStatus.OPERATIONAL, p1);
-        productItemRepository.save(productItem);
-
     }
 }

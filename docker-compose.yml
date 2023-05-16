@@ -3,6 +3,7 @@ services:
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
     platform: linux/amd64
+    restart: always
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
@@ -12,6 +13,7 @@ services:
   kafka:
     image: confluentinc/cp-kafka:latest
     platform: linux/amd64
+    restart: always
     depends_on:
       - zookeeper
     ports:

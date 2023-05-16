@@ -109,6 +109,212 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "getProductByName",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:18081/product/findProductByCriteria?name=producto1",
+					"host": [
+						"localhost"
+					],
+					"port": "18081",
+					"path": [
+						"product",
+						"findProductByCriteria"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "producto1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getProductByCategory",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:18081/product/findProductByCriteria?category_id=1",
+					"host": [
+						"localhost"
+					],
+					"port": "18081",
+					"path": [
+						"product",
+						"findProductByCriteria"
+					],
+					"query": [
+						{
+							"key": "category_id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getCategoryByName",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:18081/product/findCategoriesByCriteria?name=name1",
+					"host": [
+						"localhost"
+					],
+					"port": "18081",
+					"path": [
+						"product",
+						"findCategoriesByCriteria"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "name1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getCategoryByDescription",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:18081/product/findCategoriesByCriteria?description=description2",
+					"host": [
+						"localhost"
+					],
+					"port": "18081",
+					"path": [
+						"product",
+						"findCategoriesByCriteria"
+					],
+					"query": [
+						{
+							"key": "description",
+							"value": "description2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getProductByCategory",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:18081/product/findProductByCriteria?category_id=1",
+					"host": [
+						"localhost"
+					],
+					"port": "18081",
+					"path": [
+						"product",
+						"findProductByCriteria"
+					],
+					"query": [
+						{
+							"key": "category_id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getProductById",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:18081/product/1",
+					"host": [
+						"localhost"
+					],
+					"port": "18081",
+					"path": [
+						"product",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getItemDetails",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:18081/product/1/1",
+					"host": [
+						"localhost"
+					],
+					"port": "18081",
+					"path": [
+						"product",
+						"1",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "setNotOperationalItem",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "localhost:18081/product/item/1/setNotOperational",
+					"host": [
+						"localhost"
+					],
+					"port": "18081",
+					"path": [
+						"product",
+						"item",
+						"1",
+						"setNotOperational"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "setOperationalItem",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "localhost:18081/product/item/1/setOperational",
+					"host": [
+						"localhost"
+					],
+					"port": "18081",
+					"path": [
+						"product",
+						"item",
+						"1",
+						"setOperational"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

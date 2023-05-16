@@ -52,7 +52,6 @@ public class ProductController {
     }
 
 
-
     // add the code for the missing operations here
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
@@ -87,12 +86,18 @@ public class ProductController {
 
         var productItem = new ProductItem(-1L, serialNumber, ItemStatus.OPERATIONAL, product);
 
-        productKafkaTemplate.send(
-                KafkaConstants.PRODUCT_TOPIC + KafkaConstants.SEPARATOR + KafkaConstants.UNIT_AVAILABLE,
-                new ProductMessage(product.getBrand(), product.getModel())
-        );
+        try {
+            var item = productItemRepository.save(productItem);
+            productKafkaTemplate.send(
+                    KafkaConstants.PRODUCT_TOPIC + KafkaConstants.SEPARATOR + KafkaConstants.UNIT_AVAILABLE,
+                    new ProductMessage(product.getBrand(), product.getModel())
+            );
+            return item;
+        } catch (Exception e) {
+            log.error("createItem error: " + e.getMessage());
+        }
 
-        return productItemRepository.save(productItem);
+        return null;
 
     }
 

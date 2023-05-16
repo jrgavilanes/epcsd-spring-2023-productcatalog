@@ -31,6 +31,44 @@ amigoscode: https://www.youtube.com/watch?v=SqVfCyfCJqw
   que pasa
 
 ```
+## ejercicio 2
+
+Ante el escenario planteado, una solución adecuada para resolver el acceso a los microservicios de la plataforma Photo&Film4You en las condiciones acordadas sería utilizar el patrón de servicio de descubrimiento (Service Discovery Pattern) junto con el patrón de puerta de enlace (Gateway Pattern).
+
+El patrón de servicio de descubrimiento permitiría que los microservicios de Photo&Film4You registren dinámicamente su ubicación e información de configuración en un registro centralizado. Esto permitiría que el buscador ShootMe consulte este registro para obtener información sobre los microservicios disponibles y sus ubicaciones en tiempo de ejecución. Con esta información, ShootMe podría comunicarse con los microservicios de Photo&Film4You para obtener los resultados de las búsquedas de los usuarios.
+
+Para implementar este patrón, se podría utilizar una puerta de enlace como intermediario entre ShootMe y los microservicios de Photo&Film4You. Esta puerta de enlace sería responsable de recibir las solicitudes de ShootMe y enrutarlas a los microservicios adecuados mediante la información de descubrimiento proporcionada por el registro. La puerta de enlace también podría gestionar otras funciones como la autenticación, la autorización y el control de carga para garantizar un acceso seguro y eficiente a los microservicios.
+
+Ventajas del uso de esta solución:
+1. Escalabilidad: La arquitectura elástica de microservicios de Photo&Film4You es compatible con esta solución, ya que los microservicios pueden registrarse y desregistrarse dinámicamente en el registro. Esto permite un crecimiento y una reducción flexibles de la infraestructura según la demanda.
+2. Descubrimiento automatizado: El buscador ShootMe puede obtener de manera dinámica y automática información actualizada sobre los microservicios disponibles sin depender de direcciones IP o nombres fijos.
+3. Centralización de la gestión: El registro centralizado facilita la gestión de los microservicios y proporciona una visión global del estado y la disponibilidad de los mismos.
+4. Acoplamiento débil: ShootMe no necesita conocer los detalles de la infraestructura interna de Photo&Film4You. Se acopla a los microservicios a través de la puerta de enlace, reduciendo la dependencia y la posibilidad de efectos secundarios no deseados.
+
+Desventajas del uso de esta solución:
+1. Complejidad adicional: La implementación y gestión del servicio de descubrimiento y la puerta de enlace requieren un esfuerzo adicional en términos de desarrollo y mantenimiento.
+2. Posible punto de falla: Si la puerta de enlace o el registro centralizado fallan, puede afectar el acceso a los microservicios de Photo&Film4You desde ShootMe. Se deben tomar medidas para garantizar la disponibilidad y la resiliencia de estos componentes.
+
+Para garantizar la disponibilidad y resiliencia de los componentes, se pueden tomar las siguientes medidas:
+
+- Implementar redundancia: Configurar múltiples instancias de la puerta de enlace y el registro centralizado para evitar que un solo punto de falla afecte todo el sistema. Esto implica tener réplicas de los componentes en diferentes ubicaciones o servidores para distribuir la carga y proporcionar tolerancia a fallos.
+
+- Balanceo de carga: Utilizar un mecanismo de balanceo de carga para distribuir el tráfico entrante entre las instancias de la puerta de enlace. Esto ayuda a evitar la sobrecarga de un único componente y mejora la capacidad de respuesta y disponibilidad general del sistema.
+
+- Monitorización y alertas: Implementar sistemas de monitorización que supervisen el estado y el rendimiento de los componentes en tiempo real. Estos sistemas pueden generar alertas automáticas en caso de problemas o degradación del rendimiento, lo que permite una respuesta rápida ante cualquier incidencia.
+
+- Implementar recuperación automática: Configurar mecanismos de recuperación automática, como la autoescalabilidad, que permitan ajustar dinámicamente la capacidad de los componentes en función de la carga y la demanda. Esto garantiza que el sistema pueda hacer frente a picos de tráfico y minimiza el impacto de posibles fallos.
+
+- Respaldo y recuperación de datos: Establecer políticas de respaldo periódico de los datos del registro centralizado para evitar la pérdida de información crítica en caso de fallos. Además, implementar estrategias de recuperación de datos eficientes para garantizar una rápida restauración en caso de incidentes.
+
+- Pruebas de resistencia y continuidad: Realizar pruebas periódicas de resistencia y continuidad del sistema, simulando situaciones de estrés y fallos para evaluar la capacidad de recuperación y la disponibilidad del sistema. Esto permite identificar posibles puntos débiles y tomar medidas preventivas.
+
+- Seguridad y protección contra ataques: Implementar medidas de seguridad robustas para proteger los componentes contra posibles ataques cibernéticos. Esto incluye la implementación de firewalls, cifrado de datos y autenticación adecuada para prevenir accesos no autorizados y salvaguardar la integridad del sistema.
+
+Al aplicar estas medidas, se puede mejorar la disponibilidad y la resiliencia de los componentes, asegurando un funcionamiento confiable y continuo del sistema incluso en situaciones adversas.
+
+
+---
 
 <div id="top"></div>
 <!--
