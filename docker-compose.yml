@@ -32,24 +32,39 @@ services:
     platform: linux/amd64
     restart: always
     ports:
-      - 54320:5432
+      - "54320:5432"
     environment:
       POSTGRES_USER: product
       POSTGRES_PASSWORD: product
-      
+
   userdb:
     image: postgres
     platform: linux/amd64
     restart: always
     ports:
-      - 54321:5432
+      - "54321:5432"
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: user
 
-  adminer:
-    image: adminer
-    platform: linux/amd64
-    restart: always
+#  adminer:
+#    image: adminer
+#    platform: linux/amd64
+#    restart: always
+#    ports:
+#      - "18080:8080"
+
+  product-catalog-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
-      - 18080:8080
+      - "18081:18081"
+    restart: always
+    depends_on:
+      - productdb
+      - kafka
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+
+
