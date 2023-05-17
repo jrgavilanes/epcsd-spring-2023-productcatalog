@@ -46,25 +46,3 @@ services:
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: user
-
-#  adminer:
-#    image: adminer
-#    platform: linux/amd64
-#    restart: always
-#    ports:
-#      - "18080:8080"
-
-  product-catalog-service:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "18081:18081"
-    restart: always
-    depends_on:
-      - productdb
-      - kafka
-    environment:
-      SPRING_PROFILES_ACTIVE: prod
-
-
